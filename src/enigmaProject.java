@@ -1,6 +1,7 @@
 import java.util.Locale;
 import java.util.Scanner;
-
+//Jeg har kun kunne lave ceasar ciphered.
+//Programmet skal køres igen for at skifte mellem encrypt og decrypt.
 public class enigmaProject {
   Scanner in = new Scanner(System.in);
   String alphabet = " ABCDEFGHIJKLMNOPQRSTUVWXYZÆØÅ";
@@ -11,34 +12,39 @@ public class enigmaProject {
 
   public void go() {
     String choice = chooseToEncryptOrDecrypt();
-    String inputSentence = inputTextToEncrypt();
+
     int shiftValue = inputShift();
 
     if (choice.equalsIgnoreCase("ENCRYPT")) {
+      in.nextLine(); //Scanner Bug
+      String inputSentence = inputTextToEncrypt();
       String EncryptedWord = encryption(inputSentence, shiftValue);
       System.out.println("Your input: " + inputSentence + " was encrypted to: " + EncryptedWord);
     }
     else if (choice.equalsIgnoreCase("DECRYPT")){
-      System.out.println("Decrypt");
+      in.nextLine(); //Scanner Bug
+      String cypherInput = inputCipher();
+      String decryptedWord = decryption(cypherInput, shiftValue);
+      System.out.println("Your input: " + cypherInput + " was decrypted to: " + decryptedWord);
     }
   }
 
   public String chooseToEncryptOrDecrypt() {
-    System.out.println("Would you like to encrypt a messeage or decrypt messeage?: ");
+    System.out.println("Would you like to encrypt a message or decrypt message?: ");
     String choice = in.nextLine().toUpperCase(Locale.ROOT);
     return choice;
   }
 
   public String inputTextToEncrypt() {
 
-    System.out.print("Pleace enter the sentance you would like to encrypt: ");
+    System.out.print("Enter the sentance you would like to encrypt: ");
     String textInput = in.nextLine().toUpperCase(Locale.ROOT);
     return textInput;
   }
 
   public int inputShift() {
 
-    System.out.print("Please enter the shift value to use: ");
+    System.out.print("Enter the shift value to use: ");
     int shiftInPut = in.nextInt();
     return shiftInPut;
   }
@@ -85,5 +91,51 @@ public class enigmaProject {
     int[] shiftedNumbers = shiftNumbers(stringToNumbers, shiftValue);
     String encryptedText = shiftValuesToString(shiftedNumbers);
     return encryptedText;
+  }
+
+  public String inputCipher() {
+    System.out.println("Input the word you would like to decrypt");
+    String userInput = in.nextLine().toUpperCase(Locale.ROOT);
+    return userInput;
+  }
+  public String decryption(String cypherInput, int shiftValue){
+    int[] stringIntoNumbersDecrypt = stringIntoNumbersDecrypt(cypherInput);
+    int[] shiftednumbersDecrypt = shiftNumbersDecrypt(stringIntoNumbersDecrypt, shiftValue);
+    String decryptedMessage = makeStringFromShiftValuesDecrypt(shiftednumbersDecrypt);
+    return decryptedMessage;
+  }
+  public int[] stringIntoNumbersDecrypt(String cypherInput) {
+    int[] arrayStoreCipherInput = new int[cypherInput.length()];
+    for (int i = 0; i < cypherInput.length(); i++) {
+      ;
+      arrayStoreCipherInput[i] = letterToNumberDecrypt(cypherInput.charAt(i));
+    }
+    return arrayStoreCipherInput;
+  }
+  public int[] shiftNumbersDecrypt(int[] arrayOfNumbersDecrypt, int shiftNumber) {
+    for (int i = 0; i < arrayOfNumbersDecrypt.length; i++) {
+      arrayOfNumbersDecrypt[i] = arrayOfNumbersDecrypt[i] - shiftNumber;
+    }
+    return arrayOfNumbersDecrypt;
+  }
+
+  public int letterToNumberDecrypt(char letter) {
+    int indexOfChar = alphabet.indexOf(letter);
+    return indexOfChar;
+  }
+  public String makeStringFromShiftValuesDecrypt(int[] arrayOfShiftNumbersDecrypt) {
+    //String[] stringShiftValues = new String[arrayOfShiftNumbers.length];
+    String decryptedMessage = "";
+    char x;
+    for (int i = 0; i < arrayOfShiftNumbersDecrypt.length; i++) {
+      x = numberToLetterDecrypt(arrayOfShiftNumbersDecrypt[i]);
+      decryptedMessage += x;
+    }
+    return decryptedMessage;
+  }
+
+  public char numberToLetterDecrypt(int number) {
+    char charAtIndexDecrypt = alphabet.charAt(number);
+    return charAtIndexDecrypt;
   }
 }
