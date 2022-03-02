@@ -10,19 +10,28 @@ public class enigmaProject {
   }
 
   public void go(){
-    String text = inputTextToIncrypt();
-    int shift = inputShift();
 
+    chooseToEncryptOrDecrypt();
+    inputTextToEncrypt();
+    inputShift();
   }
 
-  private String inputTextToIncrypt() {
+  public String chooseToEncryptOrDecrypt(){
+    System.out.println("Would you like to encrypt a messeage or decrypt messeage?: ");
+    String choice = in.nextLine();
+    return choice;
+  }
 
-    String textInput =in.nextLine();
+  public String inputTextToEncrypt() {
+
+    System.out.print("Pleace enter the sentance you would like to encrypt: ");
+    String textInput = in.nextLine();
     return textInput;
   }
 
-  private int inputShift() {
+  public int inputShift() {
 
+    System.out.print("Please enter the shift value to use: ");
     int shiftInPut = in.nextInt();
     return shiftInPut;
   }
