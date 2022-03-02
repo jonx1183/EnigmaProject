@@ -2,6 +2,7 @@ import java.util.Scanner;
 
 public class enigmaProject {
   Scanner in = new Scanner(System.in);
+  String alphabet =" ABCDEFGHIJKLMNOPQRSTUVWXYZÆØÅ";
 
 
   public static void main(String[] args) {
