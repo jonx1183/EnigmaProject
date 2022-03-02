@@ -3,28 +3,27 @@ import java.util.Scanner;
 
 public class enigmaProject {
   Scanner in = new Scanner(System.in);
-  String alphabet =" ABCDEFGHIJKLMNOPQRSTUVWXYZÆØÅ";
-
-
+  String alphabet = " ABCDEFGHIJKLMNOPQRSTUVWXYZÆØÅ";
 
   public static void main(String[] args) {
-    //enigmaProject project = new enigmaProject();
     new enigmaProject().go();
-    /*
-    String answer = project.chooseToEncryptOrDecrypt();
-    String text = project.inputTextToEncrypt();
-    int shiftValue = project.inputShift();
-     */
   }
 
-  public void go(){
-    chooseToEncryptOrDecrypt();
-    inputTextToEncrypt();
-    inputShift();
+  public void go() {
+    String choice = chooseToEncryptOrDecrypt();
+    String inputSentence = inputTextToEncrypt();
+    int shiftValue = inputShift();
 
+    if (choice.equalsIgnoreCase("ENCRYPT")) {
+      String EncryptedWord = encryption(inputSentence, shiftValue);
+      System.out.println("Your input: " + inputSentence + " was encrypted to: " + EncryptedWord);
+    }
+    else if (choice.equalsIgnoreCase("DECRYPT")){
+      System.out.println("Decrypt");
+    }
   }
 
-  public String chooseToEncryptOrDecrypt(){
+  public String chooseToEncryptOrDecrypt() {
     System.out.println("Would you like to encrypt a messeage or decrypt messeage?: ");
     String choice = in.nextLine().toUpperCase(Locale.ROOT);
     return choice;
@@ -44,17 +43,47 @@ public class enigmaProject {
     return shiftInPut;
   }
 
-  public int[] textInputToNumbers(String textInput){
+  public int[] textInputToNumbers(String textInput) {
     int[] arrayStoreTextInput = new int[textInput.length()];
-    for (int i = 0; i < textInput.length(); i++){
+    for (int i = 0; i < textInput.length(); i++) {
 
       arrayStoreTextInput[i] = charToInt(textInput.charAt(i));
     }
     return arrayStoreTextInput;
   }
 
-  public int charToInt(char letter){
+  public int charToInt(char letter) {
     int indexOfChar = alphabet.indexOf(letter);
     return indexOfChar;
+  }
+
+  public int[] shiftNumbers(int[] arrayOfNumbers, int shiftNumber) {
+    for (int i = 0; i < arrayOfNumbers.length; i++) {
+      arrayOfNumbers[i] = arrayOfNumbers[i] + shiftNumber;
+    }
+    return arrayOfNumbers;
+  }
+
+  public String shiftValuesToString(int[] arrayOfShiftNumbers) {
+    String encryptedText = "";
+    char x;
+    for (int i = 0; i < arrayOfShiftNumbers.length; i++) {
+      x = intToChar(arrayOfShiftNumbers[i]);
+      encryptedText += x;
+    }
+    return encryptedText;
+  }
+
+  public char intToChar(int number) {
+    char charAtIndex = alphabet.charAt(number);
+
+    return charAtIndex;
+  }
+
+  public String encryption(String inputSentence, int shiftValue) {
+    int[] stringToNumbers = textInputToNumbers(inputSentence);
+    int[] shiftedNumbers = shiftNumbers(stringToNumbers, shiftValue);
+    String encryptedText = shiftValuesToString(shiftedNumbers);
+    return encryptedText;
   }
 }
